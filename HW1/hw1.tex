@@ -34,7 +34,7 @@
 \newcommand{\horrule}[1]{\rule{\linewidth}{#1}} % Create horizontal rule command with 1 argument of height
 
 \title{	
-	\normalfont \normalsize
+	\normalfont\normalsize
 	\textsc{Computer Engineering and Information Technology Department of Amirkabir University of Technology} \\ [25pt] % Your university, school and/or department name(s)
 	\horrule{0.5pt} \\[0.4cm] % Thin top horizontal rule
 	\huge Optimization in Computer Networks \\ % The assignment title
@@ -53,14 +53,20 @@
 %	PROBLEM 1
 %----------------------------------------------------------------------------------------
 
-\section{Problem 1}
+\section{NUM Problem}
 
-\begin{align}
-	\begin{split}
-		\sum_{i=1}^{3} x_i
-	\end{split}					
-\end{align}
-s.t.
+\begin{equation}
+	\begin{aligned}
+		& \underset{x}{\text{max}}
+		& & \sum_{i=1}^{3} x_i \\
+		& \text{s.t.} \\
+		& & & x_1 \le 20 \\
+		& & & x_1 + x_2 \le 30 \\
+		& & & x_2 \le 20 \\
+		& & & x_2 + x_3 \le 30 \\
+		& & & x_3 \le 25 \\
+	\end{aligned}					
+\end{equation}
 
 %------------------------------------------------
 
