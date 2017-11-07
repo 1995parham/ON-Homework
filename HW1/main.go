@@ -62,7 +62,7 @@ func main() {
 
 		k++
 
-		// results
+		// results in each iteration
 		fmt.Printf("===== k = %d\n", k)
 		fmt.Printf("x[%d] = %f\n", k, x[k])
 		fmt.Printf("f(x) = %f\n", f(x[k]))
