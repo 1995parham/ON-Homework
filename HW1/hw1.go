@@ -52,6 +52,7 @@ func main() {
 		// steepest descent
 		p := gf(x[k]).neg()
 
+		// backtracking
 		for f(x[k].add(p.scale(alpha))) > f(x[k])+c*alpha*p.dot(gf(x[k])) {
 			alpha = alpha * beta
 		}
@@ -59,19 +60,24 @@ func main() {
 		// x[k + 1] = x[k] + p * alpha
 		x = append(x, x[k].add(p))
 
+		// results
+		fmt.Printf("===== k = %d\n", k)
+		fmt.Printf("x[%d] = (%f, %f, %f)\n", k, x[k].x1, x[k].x2, x[k].x3)
+		fmt.Printf("=====\n")
+
 		k++
 	}
 }
 
 func f(v variable) float64 {
-	return -v.x1 - v.x2 - v.x3
+	return -v.x1 - v.x2 - v.x3 - 1/(v.x1-20) - 1/(v.x1+v.x2-30) - 1/(v.x2-20) - 1/(v.x2+v.x3-30) - 1/(v.x3-25) - 1/(v.x2-math.Log(v.x1))
 }
 
 func gf(v variable) variable {
 	return variable{
-		x1: 0,
-		x2: 0,
-		x3: 0,
+		x1: -1 + 1/math.Pow(v.x1-20, 2) + 1/math.Pow(v.x1+v.x2-30, 2) - 1/(v.x1*math.Pow(v.x2-math.Log(v.x1), 2)),
+		x2: -1 + 1/math.Pow(v.x2-20, 2) + 1/math.Pow(v.x1+v.x2-30, 2) + 1/math.Pow(v.x2+v.x3-30, 2) + 1/math.Pow(v.x2-math.Log(v.x1), 2),
+		x3: -1 + 1/math.Pow(v.x3-25, 2) + 1/math.Pow(v.x2+v.x3-30, 2),
 	}
 }
 
