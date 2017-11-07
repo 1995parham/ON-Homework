@@ -4,7 +4,7 @@
  * |
  * | Creation Date: 23-10-2017
  * |
- * | File Name:     linesearch.go
+ * | File Name:     main.go
  * +===============================================
  */
 
