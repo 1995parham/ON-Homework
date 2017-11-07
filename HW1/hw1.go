@@ -21,7 +21,7 @@ type variable struct {
 
 func main() {
 	var x []variable
-	x = make([]variable, 100)
+	x = make([]variable, 1, 100)
 
 	// starting point
 	fmt.Printf("x0 (x1, x2, x3) = ")
@@ -38,7 +38,7 @@ func main() {
 	fmt.Scanf("%f", &epsilon)
 
 	fmt.Printf("=====\n")
-	fmt.Printf("x0 = (%f, %f, %f)\n", x[0].x1, x[0].x2, x[0].x3)
+	fmt.Printf("x0 = %f\n", x[0])
 	fmt.Printf("alpha = %f\n", alpha)
 	fmt.Printf("beta = %f\n", beta)
 	fmt.Printf("c = %f\n", c)
@@ -58,14 +58,17 @@ func main() {
 		}
 
 		// x[k + 1] = x[k] + p * alpha
-		x = append(x, x[k].add(p))
+		x = append(x, x[k].add(p.scale(alpha)))
+
+		k++
 
 		// results
 		fmt.Printf("===== k = %d\n", k)
-		fmt.Printf("x[%d] = (%f, %f, %f)\n", k, x[k].x1, x[k].x2, x[k].x3)
+		fmt.Printf("x[%d] = %f\n", k, x[k])
+		fmt.Printf("f(x) = %f\n", f(x[k]))
+		fmt.Printf("p = %f\n", p)
+		fmt.Printf("alpha = %f\n", alpha)
 		fmt.Printf("=====\n")
-
-		k++
 	}
 }
 
