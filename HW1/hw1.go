@@ -10,7 +10,10 @@
 
 package main
 
-import "fmt"
+import (
+	"fmt"
+	"math"
+)
 
 type variable struct {
 	x1, x2, x3 float64
@@ -35,4 +38,8 @@ func gf(x variable) variable {
 		x2: 0,
 		x3: 0,
 	}
+}
+
+func norm(x variable) float64 {
+	return math.Sqrt(x.x1*x.x1 + x.x2*x.x2 + x.x3*x.x3)
 }
