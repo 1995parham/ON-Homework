@@ -19,6 +19,10 @@ type variable struct {
 	x1, x2, x3 float64
 }
 
+const (
+	mu = 0.3
+)
+
 func main() {
 	var x []variable
 	x = make([]variable, 1, 100)
@@ -73,14 +77,14 @@ func main() {
 }
 
 func f(v variable) float64 {
-	return -v.x1 - v.x2 - v.x3 - 1/(v.x1-20) - 1/(v.x1+v.x2-30) - 1/(v.x2-20) - 1/(v.x2+v.x3-30) - 1/(v.x3-25) - 1/(v.x2-math.Log(v.x1))
+	return -v.x1 - v.x2 - v.x3 - mu/(v.x1-20) - mu/(v.x1+v.x2-30) - mu/(v.x2-20) - mu/(v.x2+v.x3-30) - mu/(v.x3-25) - mu/(v.x2-math.Log(v.x1))
 }
 
 func gf(v variable) variable {
 	return variable{
-		x1: -1 + 1/math.Pow(v.x1-20, 2) + 1/math.Pow(v.x1+v.x2-30, 2) - 1/(v.x1*math.Pow(v.x2-math.Log(v.x1), 2)),
-		x2: -1 + 1/math.Pow(v.x2-20, 2) + 1/math.Pow(v.x1+v.x2-30, 2) + 1/math.Pow(v.x2+v.x3-30, 2) + 1/math.Pow(v.x2-math.Log(v.x1), 2),
-		x3: -1 + 1/math.Pow(v.x3-25, 2) + 1/math.Pow(v.x2+v.x3-30, 2),
+		x1: -1 + mu/math.Pow(v.x1-20, 2) + mu/math.Pow(v.x1+v.x2-30, 2) - mu/(v.x1*math.Pow(v.x2-math.Log(v.x1), 2)),
+		x2: -1 + mu/math.Pow(v.x2-20, 2) + mu/math.Pow(v.x1+v.x2-30, 2) + mu/math.Pow(v.x2+v.x3-30, 2) + mu/math.Pow(v.x2-math.Log(v.x1), 2),
+		x3: -1 + mu/math.Pow(v.x3-25, 2) + mu/math.Pow(v.x2+v.x3-30, 2),
 	}
 }
 
