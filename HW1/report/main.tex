@@ -145,10 +145,120 @@
 	\end{tabular}
 \end{center}
 
+\paragraph{
+	در صورتی که مقدار $\mu$ را کاهش دهیم جواب‌های بهتری بدست خواهد آمد که در ادامه تعدادی از آن‌ها را می‌بینیم.
+}
+
+\begin{center}
+	ورودی‌ها\\
+	\begin{tabular}{| l | c |}
+		\hline
+		$(11, 1, 1)$ & $x_0$ \\
+		$1$ & $\alpha$ \\
+		$0.5$ & $\beta$ \\
+		$0.5$ & $c$ \\
+		$0.001$ & $\epsilon$ \\
+		$0.5$ & $\mu$ \\
+		\hline
+	\end{tabular}
+\end{center}
+
+\begin{center}
+	نتایج دومین اجرا\\
+	\begin{tabular}{| l | c |}
+		\hline
+		تعداد مراحل اجرا & 75 \\
+		جواب بهینه & 49.43- \\
+		\hline
+	\end{tabular}
+\end{center}
+
+\begin{center}
+	ورودی‌ها\\
+	\begin{tabular}{| l | c |}
+		\hline
+		$(11, 1, 1)$ & $x_0$ \\
+		$1$ & $\alpha$ \\
+		$0.5$ & $\beta$ \\
+		$0.5$ & $c$ \\
+		$0.001$ & $\epsilon$ \\
+		$0.3$ & $\mu$ \\
+		\hline
+	\end{tabular}
+\end{center}
+
+\begin{center}
+	نتایج سومین اجرا\\
+	\begin{tabular}{| l | c |}
+		\hline
+		تعداد مراحل اجرا & 88 \\
+		جواب بهینه & 53.44- \\
+		\hline
+	\end{tabular}
+\end{center}
+
 \section{مشکلات}
 \paragraph{
 	در ابتدا به دنبال تابعی بودم که بتوان به وسیله‌ی آن گرادیان را محاسبه کرد ولی نتوانستم آن را برای زبانی
 	که می‌خواستم پیاده‌سازی را برای آن انجام دهم، پیدا کنم.بنابراین گرادیان را به صورت دستی محاسبه کردم و آن را در کد قرار دادم.
 }
+
+\section{حل مساله با ktt}
+\paragraph{
+	ابتدا شرایط kkt را برای مساله می‌نویسیم، از آنجایی که مساله بهینه‌سازی محدب است پس شرایط ktt برای آن لازم و کافی است.
+	بنابراین با حل ktt نقطه‌ی بهینه بدست خواهد آمد.
+}
+
+\begin{equation}
+	\begin{aligned}
+		& \exists \lambda_i \\
+		& \text{s.t.} \\
+		& \left( \begin{array}{c} -1 \\ -1 \\ -1 \end{array} \right)
+		+ \lambda_1 \left( \begin{array}{c} 1 \\ 0 \\ 0 \end{array} \right)
+		+ \lambda_2 \left( \begin{array}{c} 1 \\ 1 \\ 0 \end{array} \right)\\
+		& + \lambda_3 \left( \begin{array}{c} 0 \\ 1 \\ 0 \end{array} \right)
+		+ \lambda_4 \left( \begin{array}{c} 0 \\ 1 \\ 1 \end{array} \right)
+		+ \lambda_5 \left( \begin{array}{c} 0 \\ 0 \\ 1 \end{array} \right)
+		+ \lambda_6 \left( \begin{array}{c} -\frac{1}{x^*_1} \\ 1 \\ 0 \end{array} \right)
+		= 0 \\
+		& \text{\lr{feasibility conditions}} \\
+		& x^*1 - 20 \le 0\\
+		& x^*_1 + x^*_2 - 30 \le 0 \\
+		& x^*_2 - 20 \le 0 \\
+		& x^*_2 + x^*_3 - 30 \le 0 \\
+		& x^*_3 - 25 \le 0 \\
+		& x^*_2 - \log(x^*_1) \le 0 \\ 
+		& \text{\lr{dual feasibility}} \\
+		& \lambda_1 \ge 0,
+		\lambda_2 \ge 0,
+		\lambda_3 \ge 0 \\
+		& \lambda_4 \ge 0,
+		\lambda_5 \ge 0,
+		\lambda_6 \ge 0 \\
+		& \text{\lr{complementary slackness}} \\
+		& \lambda_1(x^*_1 - 20) = 0\\
+		& \lambda_2(x^*_1 + x^*_2 - 30) = 0 \\
+		& \lambda_3(x^*_2 - 20) = 0 \\
+		& \lambda_4(x^*_2 + x^*_3 - 30) = 0 \\
+		& \lambda_5(x^*_3 - 25) = 0 \\
+		& \lambda_6(x^*_2 - \log(x^*_1)) = 0 \\
+	\end{aligned}					
+\end{equation}
+
+\paragraph{
+	برای حل فرض می‌کنیم که مقدار $x^*_1$ و $x^*_3$ به ترتیب برابر با $20$ و $25$ می‌باشند. به این ترتیب خواهیم داشت:
+}
+
+\begin{equation}
+	\begin{aligned}
+		& x^*_1 = 20, x_2 = \log(x^*_1) = 2.99, x^*_3 = 25 \\
+		& \lambda_1 = 1, \lambda_2 = 0 \\
+		& \lambda_3 = 1, \lambda_4 = 0 \\
+		& \lambda_5 = 1, \lambda_6 = 0 \\
+		& f(x^*) = -20 + -25 + -2.99 = -47.99
+	\end{aligned}					
+\end{equation}
+
+
 
 \end{document}
