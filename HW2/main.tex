@@ -66,7 +66,7 @@
 x_1 = \left[\begin{array}{c} 0 \\ 0 \end{array}\right] \\
 x_2 = \left[\begin{array}{c} -8 \\ -2 \end{array}\right] \\
 \frac{1}{2} * x_1 + \frac{1}{2} * x_2 \\
-&= \left[\begin{array}{c} -4 \\ -1 \end{array}\right] \notin A \\
+&= \left[\begin{array}{c} -4 \\ -1 \end{array}\right] \notin A\\
 \end{split}
 \end{align}
 
@@ -77,14 +77,135 @@ x_2 = \left[\begin{array}{c} -8 \\ -2 \end{array}\right] \\
 \begin{align}
 \begin{split}
 	\Big\{
-		\begin{array}{lr}
-		\lambda_1^3 & \lambda_1 \geq 2 \\
-		-\lambda_1 + 10 & \lambda_1 < 2 \\
-		\end{array}
+	\begin{array}{lr}
+		\lambda_1^3 & \lambda_1 \geq 2\\
+		-\lambda_1 + 10 & \lambda_1 < 2\\
+	\end{array}
 \end{split}
 \end{align}
 
 \paragraph{}
-یک تابع محدب بوده بنابراین مجموعه $B$ که \lr{epi-graph} این تابع می‌باشد یک مجموعه محدب خواهد بود.
+یک تابع محدب بوده بنابراین مجموعه \(B\) که \lr{epi-graph} این تابع می‌باشد یک مجموعه محدب خواهد بود.
+
+\section{سوال دوم}
+\subsection{الف}
+\paragraph{}
+یکی از راه‌ها برای بررسی محدب بودن توابع بررسی ماتریس \lr{hessian} آن‌ها است.
+اگر این ماتریس یک ماتریس نیمه مثبت معین یا مثبت معین باشد تابع محدب بوده و در غیر این صورت محدب نخواهد بود.
+
+\begin{align}
+\begin{split}
+	\nabla^2f = \left[\begin{array}{ccc}
+		0 & x_3 & x_2 \\
+		x_3 & 0 & x_1 \\
+		x_1 & x_2 & 0 \\
+	\end{array}\right]
+\end{split}
+\end{align}
+
+\paragraph{}
+برای بررسی مثبت معین بودن ماتریس فوق از تعریف استفاده کرده و خواهیم داشت:
+
+\begin{align}
+\begin{split}
+	\left[\begin{array}{ccc}
+		a & b & c \\
+	\end{array}\right]
+	\left[\begin{array}{ccc}
+		0 & x_3 & x_2 \\
+		x_3 & 0 & x_1 \\
+		x_1 & x_2 & 0 \\
+	\end{array}\right]
+	\left[\begin{array}{c}
+		a \\
+		b \\
+		c \\
+	\end{array}\right]
+	\\
+	&= 2x_3ab + 2x_2ac + 2x_1bc
+\end{split}
+\end{align}
+
+\paragraph{}
+اگر رابطه‌ی فوق
+\(x_1=x_2=x_3=1\)
+و
+\(a=1, b=1, c=-1\)
+حاصل منفی می‌گردد پس ماتریس \lr{hessian}
+یک ماتریس مثبت معین نیست و تابع محدب نمی‌باشد.
+
+\subsection{ب}
+\paragraph{}
+یکی از راه‌ها برای بررسی محدب بودن توابع بررسی ماتریس \lr{hessian} آن‌ها است.
+اگر این ماتریس یک ماتریس نیمه مثبت معین یا مثبت معین باشد تابع محدب بوده و در غیر این صورت محدب نخواهد بود.
+
+\begin{align}
+\begin{split}
+	\nabla^2f = \left[\begin{array}{ccc}
+		\frac{2}{x_1^3x_2x_3} & \frac{1}{x_1^2x_2^2x_3} & \frac{1}{x_1^2x_2x_3^2} \\
+		\frac{1}{x_1^2x_2^2x_3} & \frac{2}{x_1x_2^3x_3} & \frac{1}{x_1x_2^2x_3^2} \\
+		\frac{1}{x_1^2x_2x_3^2} & \frac{1}{x_1x_2^2x_3^2} & \frac{2}{x_1x_2x_3^3} \\
+	\end{array}\right]
+\end{split}
+\end{align}
+
+\paragraph{}
+برای بررسی مثبت معین بودن ماتریس فوق از تعریف استفاده کرده و خواهیم داشت:
+
+\begin{align}
+\begin{split}
+	\left[\begin{array}{ccc}
+		a & b & c \\
+	\end{array}\right]
+	\left[\begin{array}{ccc}
+		\frac{2}{x_1^3x_2x_3} & \frac{1}{x_1^2x_2^2x_3} & \frac{1}{x_1^2x_2x_3^2} \\
+		\frac{1}{x_1^2x_2^2x_3} & \frac{2}{x_1x_2^3x_3} & \frac{1}{x_1x_2^2x_3^2} \\
+		\frac{1}{x_1^2x_2x_3^2} & \frac{1}{x_1x_2^2x_3^2} & \frac{2}{x_1x_2x_3^3} \\
+	\end{array}\right]
+	\left[\begin{array}{c}
+		a \\
+		b \\
+		c \\
+	\end{array}\right]
+	\\
+	= \frac{1}{x_1x_2x_3}(\frac{a}{x_1} + \frac{c}{x_3})^2
+	+  \frac{1}{x_1x_2x_3}(\frac{a}{x_1} + \frac{b}{x_2})^2
+	+  \frac{1}{x_1x_2x_3}(\frac{b}{x_2} + \frac{c}{x_3})^2
+\end{split}
+\end{align}
+
+\paragraph{}
+عبارت فوق به صورت مجموع تعدادی مربع کامل با ضرایب مثبت نوشته شده است. بنابراین این عبارت
+همواره یک مقدار مثبت خواهد داشت و تابع محدب خواهد بود.
+
+\subsection{ج}
+\paragraph{}
+این تابع محدب نیست و برای اثبات این موضوع از مثال نقض زیر استفاده می‌کنیم:
+
+\begin{align}
+\begin{split}
+	x_1 = \left[\begin{array}{c}
+		2 \\ 1 \\ 2
+	\end{array}\right],
+	y_1 = 2^1 + 1^2 = 3
+	\\
+	x_2 = \left[\begin{array}{c}
+		1 \\ 2 \\ 1
+	\end{array}\right],
+	y_2 = 1^2 + 2^1 = 3
+	\\
+	\frac{1}{2}x_1 + \frac{1}{2}x_2 =
+	\left[\begin{array}{c}
+		1.5 \\ 1.5 \\ 1.5
+	\end{array}\right],
+	f(\frac{1}{2}x_1 + \frac{1}{2}x_2) = 1.5^{1.5} + 1.5^{1.5} = 3.67
+	\\
+	\frac{1}{2}f(x_1) + \frac{1}{2}f(x_2) = 3
+	\\
+	f(\frac{1}{2}x_1 + \frac{1}{2}x_2) = 1.5^{1.5} + 1.5^{1.5} = 3.67
+	>
+	\frac{1}{2}f(x_1) + \frac{1}{2}f(x_2) = 3
+\end{split}
+\end{align}
 
 \end{document}
