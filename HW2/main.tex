@@ -217,6 +217,23 @@ x_2 = \left[\begin{array}{c} -8 \\ -2 \end{array}\right] \\
 
 \section{سوال سوم}
 \subsection{الف}
+\paragraph{}
+از حل مساله با ابزار \lr{cvx} نتایج زیر حاصل می‌شود:
+\begin{align}
+	\begin{split}
+		x^* = \left[
+			\begin{array}{c}
+				5 \\ 3
+			\end{array}
+		\right] \\
+		\lambda^* = \left[
+			\begin{array}{c}
+				0 \\ 2 \\ 0
+			\end{array}
+		\right]
+	\end{split}
+\end{align}
+
 \subsection{ب}
 \begin{align}
 	\begin{split}
@@ -225,9 +242,9 @@ x_2 = \left[\begin{array}{c} -8 \\ -2 \end{array}\right] \\
 		&+ \lambda_1 (3 - x_1) + \lambda_2 (x_1 + x_2 - 8) + \lambda_3 (x_1 - x_2)\\
 		l(\lambda)\\
 		&= \underset{x}{\text{min}}L(x, \lambda)\\
-		&= 1/4(\lambda_1-\lambda_2-\lambda_3)^2 + 1/4(\lambda_3-\lambda_2)^2 \\
-		&+ 1/2(-\lambda_1+\lambda_2+\lambda_3-6)\lambda_1 + 1/2(\lambda_1-2\lambda_2+4)\lambda_2 \\
-		&+ 1/2(\lambda_1-2\lambda_3+4)\lambda_3 \\
+		&= 1/4(\lambda_1-\lambda_2+\lambda_3)^2 + 1/4(\lambda_3+\lambda_2)^2 \\
+		&+ 1/2(-\lambda_1+\lambda_2-\lambda_3-6)\lambda_1 + 1/2(\lambda_1-2\lambda_2+4)\lambda_2 \\
+		&+ 1/2(\lambda_1+2\lambda_3-4)\lambda_3 \\
 	\end{split}
 \end{align}
 \paragraph{}
@@ -237,9 +254,9 @@ x_2 = \left[\begin{array}{c} -8 \\ -2 \end{array}\right] \\
 	\begin{aligned}
 		& \underset{\lambda}{\text{max}}
 		& & l(\lambda) \\
-		& & &= 1/4(\lambda_1-\lambda_2-\lambda_3)^2 + 1/4(\lambda_3-\lambda_2)^2 \\
-		& & &+ 1/2(-\lambda_1+\lambda_2+\lambda_3-6)\lambda_1 + 1/2(\lambda_1-2\lambda_2+4)\lambda_2 \\
-		& & &+ 1/2(\lambda_1-2\lambda_3+4)\lambda_3 \\
+		& & &= 1/4(\lambda_1-\lambda_2+\lambda_3)^2 + 1/4(\lambda_3+\lambda_2)^2 \\
+		& & &+ 1/2(-\lambda_1+\lambda_2-\lambda_3-6)\lambda_1 + 1/2(\lambda_1-2\lambda_2+4)\lambda_2 \\
+		& & &+ 1/2(\lambda_1+2\lambda_3-4)\lambda_3 \\
 		& \text{s.t.} \\
 		& & & \lambda_1, \lambda_2, \lambda_3 \ge 0
 	\end{aligned}
@@ -270,7 +287,15 @@ x_2 = \left[\begin{array}{c} -8 \\ -2 \end{array}\right] \\
 \end{align}
 
 \subsection{د}
+مساله‌ی \lr{dual} به فرمت \lr{quadratic} نبوده و به وسیله‌ی \lr{SDPT3}
+حل نمی‌شود ولی اگر متغیرهای قسمت اول را در آن جایگذاری کنیم حاصل آن با
+حاصل بهینه‌ی مساله‌ی \lr{primal} یکی می‌شود.
+
 \subsection{ذ}
+این قضیه برقرار است زیرا متغیرهای \(\lambda_1, \lambda_3\)
+متناظر با نامساوی‌هایی که \lr{active} نیستند
+برابر با صفر است و مقدار \(\lambda_2\)
+در نامساوی دوم غیر صفر می‌باشد که یک نامساری \lr{active} می‌باشد.
 
 \section{سوال چهارم}
 \subsection{الف}
