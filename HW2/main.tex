@@ -222,9 +222,28 @@ x_2 = \left[\begin{array}{c} -8 \\ -2 \end{array}\right] \\
 	\begin{split}
 		L(x, \lambda)\\
 		&= (x_1 - 6)^2 + (x_2 - 4)^2\\
-		&+ \lambda_1 (3 - x_1) + \lambda_2 (x_1 + x_2 - 8) + \lambda_3 (x_1 - x_2)
+		&+ \lambda_1 (3 - x_1) + \lambda_2 (x_1 + x_2 - 8) + \lambda_3 (x_1 - x_2)\\
+		l(\lambda)\\
+		&= \underset{x}{\text{min}}L(x, \lambda)\\
+		&= 1/4(\lambda_1-\lambda_2-\lambda_3)^2 + 1/4(\lambda_3-\lambda_2)^2 \\
+		&+ 1/2(-\lambda_1+\lambda_2+\lambda_3-6)\lambda_1 + 1/2(\lambda_1-2\lambda_2+4)\lambda_2 \\
+		&+ 1/2(\lambda_1-2\lambda_3+4)\lambda_3 \\
 	\end{split}
 \end{align}
+\paragraph{}
+در نهایت مساله‌ی \lr{dual} به شکل زیر درمیاید.
+
+\begin{equation}
+	\begin{aligned}
+		& \underset{\lambda}{\text{max}}
+		& & l(\lambda) \\
+		& & &= 1/4(\lambda_1-\lambda_2-\lambda_3)^2 + 1/4(\lambda_3-\lambda_2)^2 \\
+		& & &+ 1/2(-\lambda_1+\lambda_2+\lambda_3-6)\lambda_1 + 1/2(\lambda_1-2\lambda_2+4)\lambda_2 \\
+		& & &+ 1/2(\lambda_1-2\lambda_3+4)\lambda_3 \\
+		& \text{s.t.} \\
+		& & & \lambda_1, \lambda_2, \lambda_3 \ge 0
+	\end{aligned}
+\end{equation}
 
 \section{سوال چهارم}
 \subsection{الف}
@@ -253,6 +272,8 @@ x_2 = \left[\begin{array}{c} -8 \\ -2 \end{array}\right] \\
 			x_3 & u = 4\\
 			-x_3 & u = 6\\
 		\end{array} \right.\\
+		& & & x_1, x_2, x_3 \ge 0 \\
+		& & & f_i(u, v) \ge 0, \forall (u, v) \in {1, 2, 3, 4, 5, 6, 7}, \forall i \in {1, 2, 3}
 	\end{aligned}
 \end{equation}
 
