@@ -64,25 +64,104 @@
 \paragraph{}
 از آنجایی که تابع هدف برای تمام گره‌ها یکسان است برای هر گره تنها محدودیت‌ها را می‌نویسیم.
 
+\section{سوال دوم}
+\subsection{الف}
+\paragraph{}
+متغیر $x_{i,(u,v)}$
+نشان می‌دهد که یال $u,v$ در
+مسیریابی تقاضای iام استفاده شده است یا خیر.
+
 \begin{align}
 \begin{split}
-	\left[\begin{array}{ccc}
-		a & b & c \\
-	\end{array}\right]
-	\left[\begin{array}{ccc}
-		0 & x_3 & x_2 \\
-		x_3 & 0 & x_1 \\
-		x_1 & x_2 & 0 \\
-	\end{array}\right]
-	\left[\begin{array}{c}
-		a \\
-		b \\
-		c \\
-	\end{array}\right]
-	\\
-	&= 2x_3ab + 2x_2ac + 2x_1bc
+	min \sum_{i = [1, ..., |D|]}\sum_{(u,v) \in E} x_{i,(u,v)}W_{(u,v)}
 \end{split}
 \end{align}
 
+\begin{align}
+\begin{split}
+	\sum_{(u,v) \in E} x_{i,(u,v)} - \sum_{(v,u) \in E} x_{i,(v,u)} = 
+	\left \{
+		\begin{array}{cc}
+			1 & u = s_i\\
+			0 & u \in V - {s_i, t_i}\\
+			-1 & u = t_i
+		\end{array}
+	\right.
+	\\
+	\quad u \in V, i = {1, ..., |D|}
+\end{split}
+\end{align}
+
+\begin{align}
+\begin{split}
+	\sum_{i = [1, ..., |D|]}\sum_{(u,v) \in E} x_{i,(u,v)}Z_{(u,v)} \le d_i
+\end{split}
+\end{align}
+
+\subsection{ب}
+
+\subsection{ج}
+\begin{align}
+\begin{split}
+	min \sum_{i = [1, ..., |D|]}\sum_{(u,v) \in E} x_{i,(u,v)}W_{(u,v)} + \lambda^T \sum_{i = [1, ..., |D|]}(\sum_{(u,v) \in E} x_{i,(u,v)}Z_{(u,v)} - d_i)
+\end{split}
+\end{align}
+
+\begin{align}
+\begin{split}
+	\sum_{(u,v) \in E} x_{i,(u,v)} - \sum_{(v,u) \in E} x_{i,(v,u)} = 
+	\left \{
+		\begin{array}{cc}
+			1 & u = s_i\\
+			0 & u \in V - {s_i, t_i}\\
+			-1 & u = t_i
+		\end{array}
+	\right.
+	\\
+	\quad u \in V, i = {1, ..., |D|}
+\end{split}
+\end{align}
+
+\section{سوال سوم}
+\subsection{الف}
+\paragraph{}
+متغیر $x_{i,(u,v)}$ نشان می‌دهد که آیا کانال i به یال $(u,v)$
+اختصاص یافته است یا خیر.
+
+\paragraph{}
+متغیر $y_{i,u}$ نشان می‌دهد
+که آیا کانال i در راس u استفاده شده است یا خیر
+
+\begin{align}
+\begin{split}
+	\sum_{i=1}^{12} x_{i,(u,v)} = 1
+	\quad (u,v) \in E
+\end{split}
+\end{align}
+
+\begin{align}
+\begin{split}
+	x_{i,(u,v)} \le y_{i,u}\\
+	x_{i,(u,v)} \le y_{i,v}\\
+	\quad (u,v) \in E, 1 \le i \le 12
+\end{split}
+\end{align}
+
+\begin{align}
+\begin{split}
+	y_{i,u} \le r_u
+	u \in V, 1 \le u \le 12
+\end{split}
+\end{align}
+
+
+
+
+\section{سوال چهارم}
+\subsection{الف}
+
+
+
+\section{سوال پنچم}
 
 \end{document}
