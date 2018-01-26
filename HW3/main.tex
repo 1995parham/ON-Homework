@@ -94,16 +94,20 @@
 
 \begin{align}
 \begin{split}
-	\sum_{i = [1, ..., |D|]}\sum_{(u,v) \in E} x_{i,(u,v)}Z_{(u,v)} \le d_i
+	\sum_{(u,v) \in E} x_{i,(u,v)}Z_{(u,v)} \le d_i
+	\quad
+	i = {1, ..., |D|}
 \end{split}
 \end{align}
 
 \subsection{ب}
+\paragraph{}
+نتایج و کدها به پیوست آمده است.
 
 \subsection{ج}
 \begin{align}
 \begin{split}
-	min \sum_{i = [1, ..., |D|]}\sum_{(u,v) \in E} x_{i,(u,v)}W_{(u,v)} + \lambda^T \sum_{i = [1, ..., |D|]}(\sum_{(u,v) \in E} x_{i,(u,v)}Z_{(u,v)} - d_i)
+	max -\sum_{i = [1, ..., |D|]}\sum_{(u,v) \in E} x_{i,(u,v)}W_{(u,v)} - \sum_{i = [1, ..., |D|]}\lambda^T(\sum_{(u,v) \in E} x_{i,(u,v)}Z_{(u,v)} - d_i)
 \end{split}
 \end{align}
 
@@ -121,6 +125,12 @@
 	\quad u \in V, i = {1, ..., |D|}
 \end{split}
 \end{align}
+
+\subsection{د}
+کدها و نتایج به پیوست آمده است.
+با کاهش مقدار $\lambda$ می‌توان مقدار بهینه تابع آزاد شده را
+به تابع اصلی نزدیک کرد ولی از سوی دیگر با کوچکتر کردن این ضرایب
+ممکن است حل کننده بعضی از محدودیت‌ها را نقش کند.
 
 \section{سوال سوم}
 \subsection{الف}
