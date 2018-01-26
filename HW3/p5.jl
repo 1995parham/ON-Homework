@@ -88,7 +88,7 @@ m = Model(solver=GLPKSolverMIP())
 @variable(m, y[1:C,1:V] >= 0, Bin)
 @variable(m, z[1:V,1:V,1:V,1:V] >= 0, Bin)
 @variable(m, f[1:Ds,1:V,1:V] >= 0)
-@variable(m, fz[1:V,1:V,1:V,1:V])
+@variable(m, fz[1:V,1:V,1:V,1:V] >= 0)
 @variable(m, b[1:Ds] >= 0)
 
 @constraint(m, [e in E], sum(x[c,e[1],e[2]] for c=1:C) == 1)
