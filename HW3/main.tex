@@ -184,12 +184,118 @@
 
 \section{سوال چهارم}
 \subsection{الف}
+\paragraph{}
+متغیر $f_{i,(u,v)}$ میزان جریانی است که از تقاضای iام روی لینک
+$(u,v)$ جریان دارد.
+
+\begin{align}
+\begin{split}
+	min \sum_{i = [1, ..., |D|]} b_i
+\end{split}
+\end{align}
+
+\begin{align}
+\begin{split}
+	\sum_{(u,v) \in E} f_{i,(u,v)} - \sum_{(v,u) \in E} f_{i,(v,u)} = 
+	\left \{
+		\begin{array}{cc}
+			b_i & u = s_i\\
+			0 & u \in V - {s_i, t_i}\\
+			-b_i & u = t_i
+		\end{array}
+	\right.
+	\\
+	\quad u \in V, i = {1, ..., |D|}
+\end{split}
+\end{align}
+
+\begin{align}
+\begin{split}
+	\sum_{i = {1, ..., |D|}} f_{i,(u,v)} + \sum_{(u',v') \in I_{(u,v)}} z_{(u,v),(u',v')} \sum_{i = {1, ..., |D|}} f_{i,(u',v')} \le c_{(u,v)}
+	\quad (u,v) \in E
+\end{split}
+\end{align}
 
 \subsection{ب و ج}
 
 
 \section{سوال پنچم}
 \subsection{الف}
+\paragraph{}
+متغیر $f_{i,(u,v)}$ میزان جریانی است که از تقاضای iام روی لینک
+$(u,v)$ جریان دارد.
+
+\paragraph{}
+متغیر $x_{i,(u,v)}$ نشان می‌دهد که آیا کانال i به یال $(u,v)$
+اختصاص یافته است یا خیر.
+
+\paragraph{}
+متغیر $y_{i,u}$ نشان می‌دهد
+که آیا کانال i در راس u استفاده شده است یا خیر
+
+\paragraph{}
+متغیر $z_{(u,v),(u',v')}$
+نشان می‌دهد یال‌های $(u,v)$ و $(u',v')$ با یکدیگر تداخل دارند یا خیر.
+
+\begin{align}
+\begin{split}
+	min \sum_{i = [1, ..., |D|]} b_i
+\end{split}
+\end{align}
+
+\begin{align}
+\begin{split}
+	x_{i,(u,v)} + x_{i,(u',v')} - 1 \le z_{(u,v),(u',v')}
+	\quad
+	1 \le i \le 12, (u,v) \in E, (u',v') \in I_{(u,v)}
+\end{split}
+\end{align}
+
+\begin{align}
+\begin{split}
+	\sum_{i=1}^{12} x_{i,(u,v)} = f_{i,(u,v)}
+	\quad (u,v) \in E
+\end{split}
+\end{align}
+
+\begin{align}
+\begin{split}
+	x_{i,(u,v)} \le y_{i,u}\\
+	x_{i,(u,v)} \le y_{i,v}\\
+	\quad (u,v) \in E, 1 \le i \le 12
+\end{split}
+\end{align}
+
+\begin{align}
+\begin{split}
+	\sum_{i=1}^{12} y_{i,u} \le r_u
+	\quad u \in V, 1 \le u \le 12
+\end{split}
+\end{align}
+
+\begin{align}
+\begin{split}
+	\sum_{(u,v) \in E} f_{i,(u,v)} - \sum_{(v,u) \in E} f_{i,(v,u)} = 
+	\left \{
+		\begin{array}{cc}
+			b_i & u = s_i\\
+			0 & u \in V - {s_i, t_i}\\
+			-b_i & u = t_i
+		\end{array}
+	\right.
+	\\
+	\quad u \in V, i = {1, ..., |D|}
+\end{split}
+\end{align}
+
+\begin{align}
+\begin{split}
+	\sum_{i = {1, ..., |D|}} f_{i,(u,v)} + \sum_{(u',v') \in I_{(u,v)}} z_{(u,v),(u',v')} \sum_{i = {1, ..., |D|}} f_{i,(u',v')} \le c_{(u,v)}
+	\quad (u,v) \in E
+\end{split}
+\end{align}
+
+
 
 \subsection{ب و ج}
 
