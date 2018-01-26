@@ -132,6 +132,24 @@
 متغیر $y_{i,u}$ نشان می‌دهد
 که آیا کانال i در راس u استفاده شده است یا خیر
 
+\paragraph{}
+متغیر $z_{(u,v),(u',v')}$
+نشان می‌دهد یال‌های $(u,v)$ و $(u',v')$ با یکدیگر تداخل دارند یا خیر.
+
+\begin{align}
+\begin{split}
+	min \sum_{(u,v) \in E}\sum_{(u',v') \in I_{u,v}} z_{(u,v),(u',v')}
+\end{split}
+\end{align}
+
+\begin{align}
+\begin{split}
+	x_{i,(u,v)} + x_{i,(u',v')} - 1 \le z_{(u,v),(u',v')}
+	\quad
+	1 \le i \le 12, (u,v) \in E, (u',v') \in I_{(u,v)}
+\end{split}
+\end{align}
+
 \begin{align}
 \begin{split}
 	\sum_{i=1}^{12} x_{i,(u,v)} = 1
@@ -153,9 +171,6 @@
 	u \in V, 1 \le u \le 12
 \end{split}
 \end{align}
-
-
-
 
 \section{سوال چهارم}
 \subsection{الف}
