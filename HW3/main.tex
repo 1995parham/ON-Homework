@@ -62,7 +62,144 @@
 
 \section{سوال اول}
 \paragraph{}
-از آنجایی که تابع هدف برای تمام گره‌ها یکسان است برای هر گره تنها محدودیت‌ها را می‌نویسیم.
+از آنجایی که یکی از $b_j$ها منفی است
+می‌بایست از الگوریتم سیمپلکس دوفازی استفاده کنیم.
+
+\paragraph{}
+نود ۱
+\begin{align}
+\begin{split}
+	x_1 = 3.575\\
+	x_2 = 3.225\\
+	x_3 = 7.95\\
+	z = 38.625
+\end{split}
+\end{align}
+
+\paragraph{}
+نود ۲
+\begin{align}
+\begin{split}
+	x_1 = 3\\
+	x_2 = 3.0333\\
+	x_3 = 8.333\\
+	z = 37.767\\
+	\text{Constraints}\\
+	x_1 <= 3
+\end{split}
+\end{align}
+
+\paragraph{}
+نود ۳
+\begin{align}
+\begin{split}
+	x_1 = 4\\
+	x_2 = 4.8\\
+	x_3 = 7.667\\
+	z = 37.733\\
+	\text{Constraints}\\
+	x_1 >= 4
+\end{split}
+\end{align}
+
+\paragraph{}
+از آنجایی که از متد \lr{BFS} استفاده می‌کنیم
+نود شماره‌ی ۲ را انتخاب کرده و ادامه می‌دهیم.
+
+\paragraph{}
+نود ۴
+\begin{align}
+\begin{split}
+	x_1 = 3\\
+	x_2 = 5.2\\
+	x_3 = 8\\
+	z = 37.6\\
+	\text{Constraints}\\
+	x_1 <= 3
+	x_3 <= 8
+\end{split}
+\end{align}
+
+\paragraph{}
+نود ۵
+\begin{align}
+\begin{split}
+	x_1 = 2\\
+	x_2 = 4.7\\
+	x_3 = 9\\
+	z = 36.1\\
+	\text{Constraints}\\
+	x_1 <= 3
+	x_3 >= 9
+\end{split}
+\end{align}
+
+\paragraph{}
+از آنجایی که از متد \lr{BFS} استفاده می‌کنیم
+نود شماره‌ی ۳ را انتخاب کرده و ادامه می‌دهیم.
+
+\paragraph{}
+نود ۶
+\begin{align}
+\begin{split}
+	x_1 = 4\\
+	x_2 = 4.8\\
+	x_3 = 7\\
+	z = 36.4\\
+	\text{Constraints}\\
+	x_1 >= 4
+	x_3 <= 7
+\end{split}
+\end{align}
+
+\paragraph{}
+نود ۷
+\begin{align}
+\begin{split}
+	\text{Infeasible}\\
+	\text{Constraints}\\
+	x_1 >= 4
+	x_3 >= 8
+\end{split}
+\end{align}
+
+\paragraph{}
+از آنجایی که از متد \lr{BFS} استفاده می‌کنیم
+نود شماره‌ی ۴ را انتخاب کرده و ادامه می‌دهیم.
+
+\paragraph{}
+نود ۸
+\begin{align}
+\begin{split}
+	x_1 = 3\\
+	x_2 = 5\\
+	x_3 = 8\\
+	z = 37\\
+	\text{Constraints}\\
+	x_1 <= 3
+	x_2 <= 5
+	x_3 <= 8
+\end{split}
+\end{align}
+
+\paragraph{}
+نود ۹
+\begin{align}
+\begin{split}
+	x_1 = 2.8\\
+	x_2 = 6\\
+	x_3 = 6.4\\
+	z = 36.4\\
+	\text{Constraints}\\
+	x_1 <= 3
+	x_2 >= 6
+	x_3 <= 8
+\end{split}
+\end{align}
+
+\paragraph{}
+با توجه به اینکه مقداری که نود ۸ بدست آمده است صحیح بوده
+و از تمام جواب‌های آزاد شده‌ی نودها بیشتر است جواب نهایی جواب نود ۸ می‌باشد.
 
 \section{سوال دوم}
 \subsection{الف}
