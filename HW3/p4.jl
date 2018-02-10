@@ -93,8 +93,8 @@ oz = getvalue(z)
 # Demands
 # destination source delay
 D = [
-     1 2;
-     1 3;
+     1 5;
+     3 2;
     ]
 Ds = size(D)[1]
 
