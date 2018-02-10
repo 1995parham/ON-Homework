@@ -57,8 +57,8 @@ E = [
 # Demands
 # destination source delay
 D = [
-     1 2;
-     1 3;
+     1 5;
+     2 3;
     ]
 Ds = size(D)[1]
 
