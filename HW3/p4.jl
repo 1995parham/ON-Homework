@@ -101,9 +101,13 @@ Ds = size(D)[1]
 # Edges capacity
 C = fill(10, V, V)
 
-m = Model(solver=GLPKSolverLP())
+# BigM
+M = 1000
+
+m = Model(solver=GLPKSolverMIP())
 
 @variable(m, f[1:Ds,1:V,1:V] >= 0)
+@variable(m, s[1:Ds,1:V,1:V] >= 0, Bin)
 @variable(m, b[1:Ds] >= 0)
 for i = 1:Ds
 	for u = 1:V
@@ -117,6 +121,8 @@ for i = 1:Ds
 	end
 end
 @constraint(m, [e in E], sum(f[i, e[1], e[2]] for i = 1:Ds) + sum(oz[e[1], e[2], ie[1], ie[2]] * sum(f[i, ie[1], ie[2]] for i = 1:Ds) for ie in I[e[1],e[2]]) <= C[e[1], e[2]])
+@constraint(m, [e in E, i = 1:Ds], f[i, e[1], e[2]] <= s[i, e[1], e[2]] * M)
+@constraint(m, [i = 1:Ds], sum(f[i,e[1],e[2]] for e in E if e[1] == D[i,1]) >= 1)
 @objective(m, Max, sum(b[i] for i=1:Ds))
 
 print(m)
