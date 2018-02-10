@@ -65,6 +65,15 @@ for e1 in E
 		if e1[1] != e2[1] && e1[2] == e2[2]
 			push!(I[e1[1],e1[2]], e2)
 		end
+		if e1[1] != e2[2] && e1[2] == e2[1]
+			push!(I[e1[1],e1[2]], e2)
+		end
+		if e1[1] == e2[2] && e1[2] != e2[1]
+			push!(I[e1[1],e1[2]], e2)
+		end
+		if e1[1] == e2[2] && e1[2] == e2[1]
+			push!(I[e1[1],e1[2]], e2)
+		end
 	end
 end
 
