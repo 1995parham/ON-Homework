@@ -3,6 +3,8 @@ using GLPK
 using GLPKMathProgInterface
 
 # Parameters
+## SFC Requests
+
 # T Service Function Chain (SFC) requests known in advance
 T = 10
 
@@ -34,7 +36,7 @@ m = Model(solver=GLPKSolverMIP())
 @constraint(m, [v=1:V], sum(y[c,v] for c=1:C) <= R[v])
 @constraint(m, [e in E, c=1:C, i in I[e]], x[c,e[1],e[2]] + x[c,i[1],i[2]] - 1 <= z[e[1],e[2],i[1],i[2]])
 
-@objective(m, Min, sum(sum(z[e[1],e[2],i[1],i[2]] for i in I[e]) for e in E))
+@objective(m, Max, sum(x[h] for h=1:T))
 
 print(m)
 
