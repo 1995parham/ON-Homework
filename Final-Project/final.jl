@@ -47,6 +47,8 @@ V = sum(size(r.Nodes)[1] for r in SFCs)
 
 m = Model(solver=GLPKSolverMIP())
 
+# assuming the value 1 if the VNF v needs the
+# application of the VNF k; otherwise its value is 0
 function beta(v::Int64, k::Int64)
 	vs = 0
 	for r in SFCs
@@ -61,6 +63,8 @@ function beta(v::Int64, k::Int64)
 	end
 end
 
+# the processing capacity requested by the
+# VNF node v
 function B(v::Int64)
 	vs = 0
 	for r in SFCs
@@ -128,9 +132,16 @@ X = getvalue(x)
 Y = getvalue(y)
 Z = getvalue(z)
 
-for i = 1:size(X)[1]
-	println("Request ", i, " is ", X[i] == 1 ? "accepted" : "rejected")
+println()
+
+for h = 1:T
+	println("Request ", h, " is ", X[h] == 1 ? "accepted" : "rejected")
 end
 
-println("y = ", Y)
+println()
+
+for w = 1:W, k = 1:F
+	println("Type ", k, " has ", Y[k,w], " cores on ", w)
+end
+
 println("z = ", Z)
