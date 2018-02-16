@@ -26,17 +26,17 @@ T = size(SFCs)[1]
 
 # We assume that F types of VNFs can be provisioned as
 # firewall, IDS, proxy, load balancers, and so on.
-F = 5
+t_proc = [1, 1, 1, 1, 1]
+F = size(t_proc)[1]
 
 # Physical Network cores
-N_core = [1, 2, 3, 4, 5]
+N_core = [1, 1]
 
 # W Number of physical nodes
 W = size(N_core)[1]
 
 # VNFs
 V = sum(size(r.Nodes)[1] for r in SFCs)
-println(V)
 
 m = Model(solver=GLPKSolverMIP())
 
@@ -49,6 +49,16 @@ function beta(v::Int64, k::Int64)
 			else
 				return false
 			end
+		end
+		vs += size(r.Nodes)[1]
+	end
+end
+
+function B(v::Int64)
+	vs = 0
+	for r in SFCs
+		if vs + size(r.Nodes)[1] >= v
+			return r.Nodes[v - vs].Cores
 		end
 		vs += size(r.Nodes)[1]
 	end
@@ -80,6 +90,15 @@ end
 # we introduce this constraint
 @constraint(m, [v=1:V,k=1:F,w=1:W], z[v,w,k] <= beta(v,k))
 
+# limits the number of VNF nodes assigned to one VNF instance
+# by taking into account both the number of Vcores assigned to the VNF
+# instance and the required VNF node processing capacities
+@constraint(m, [k=1:F,w=1:W], sum(z[v,w,k] * B(v) * t_proc[k] for v=1:V) <= y[k,w])
+
+# establish the fact that an SFC request can be accepted when the nodes
+# of the SFC graph are assigned to VNF instances
+@constraint(m, [h=1:T,v=1:V], x[h] <= sum(sum(z[v,w,k] for w=1:W) for k=1:F))
+
 @objective(m, Max, sum(x[h] for h=1:T))
 
 print(m)
@@ -88,3 +107,5 @@ status = @time solve(m)
 
 println("Objective value: ", getobjectivevalue(m))
 println("x = ", getvalue(x))
+println("y = ", getvalue(y))
+println("z = ", getvalue(z))
