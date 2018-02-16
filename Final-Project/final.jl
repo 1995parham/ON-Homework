@@ -2,14 +2,19 @@ using JuMP
 using GLPK
 using GLPKMathProgInterface
 
-struct SFCNode
+struct Node
 	Cores::Int64
 	Func::Int64
 end
 
+struct Link
+	Source::Int64
+	Destination::Int64
+	Wight::Int64
+end
 
 struct SFCRequest
-	Nodes::Array{SFCNode}
+	Nodes::Array{Node}
 	Links::Array{Tuple{Int64,Int64}}
 end
 
@@ -17,8 +22,10 @@ end
 ## SFC Requests
 
 SFCs = [
-	SFCRequest([SFCNode(1, 1), SFCNode(2, 2)]
-		   , [(1, 2)])
+	SFCRequest([Node(1, 1), Node(2, 2)],
+		   [(1, 2)]),
+	SFCRequest([Node(1, 3)],
+		   [])
        ]
 
 # T Service Function Chain (SFC) requests known in advance
@@ -30,10 +37,10 @@ t_proc = [1, 1, 1, 1, 1]
 F = size(t_proc)[1]
 
 # Physical Network cores
-N_core = [1, 1]
+PN_nodes = [Node(2, 0), Node(2, 0)]
 
 # W Number of physical nodes
-W = size(N_core)[1]
+W = size(PN_nodes)[1]
 
 # VNFs
 V = sum(size(r.Nodes)[1] for r in SFCs)
@@ -64,6 +71,16 @@ function B(v::Int64)
 	end
 end
 
+function node_range(h::Int64)
+	start = 0
+	if h > 1
+		start = sum(size(SFCs[i].Nodes)[1] for i=1:h-1)
+	end
+	finish = start + size(SFCs[h].Nodes)[1]
+
+	return start + 1 : finish
+end
+
 # x_h: binary variable assuming the value 1 if the hth SFC
 # request is accepted; otherwise its value is zero
 @variable(m, x[1:T] >= 0, Bin)
@@ -79,7 +96,7 @@ end
 
 # establishes the fact that at most a number
 # of Vcores equal to the available ones are used for each server node w
-@constraint(m, [w=1:W], sum(y[k,w] for k=1:F) <= N_core[w])
+@constraint(m, [w=1:W], sum(y[k,w] for k=1:F) <= PN_nodes[w].Cores)
 
 # expresses the condition that a VNF can
 # be served by one only VNF instance
@@ -97,7 +114,7 @@ end
 
 # establish the fact that an SFC request can be accepted when the nodes
 # of the SFC graph are assigned to VNF instances
-@constraint(m, [h=1:T,v=1:V], x[h] <= sum(sum(z[v,w,k] for w=1:W) for k=1:F))
+@constraint(m, [h=1:T, v=node_range(h)], x[h] <= sum(sum(z[v,w,k] for w=1:W) for k=1:F))
 
 @objective(m, Max, sum(x[h] for h=1:T))
 
@@ -106,6 +123,14 @@ print(m)
 status = @time solve(m)
 
 println("Objective value: ", getobjectivevalue(m))
-println("x = ", getvalue(x))
-println("y = ", getvalue(y))
-println("z = ", getvalue(z))
+
+X = getvalue(x)
+Y = getvalue(y)
+Z = getvalue(z)
+
+for i = 1:size(X)[1]
+	println("Request ", i, " is ", X[i] == 1 ? "accepted" : "rejected")
+end
+
+println("y = ", Y)
+println("z = ", Z)
