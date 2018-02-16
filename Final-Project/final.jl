@@ -2,9 +2,14 @@ using JuMP
 using GLPK
 using GLPKMathProgInterface
 
+struct SFCNode
+	Cores::Int64
+	Func::Int64
+end
+
 
 struct SFCRequest
-	Nodes::Int64
+	Nodes::Array{SFCNode}
 	Links::Array{Tuple{Int64,Int64}}
 end
 
@@ -12,7 +17,8 @@ end
 ## SFC Requests
 
 SFCs = [
-	SFCRequest(2, [(1, 2)])
+	SFCRequest([SFCNode(1, 1), SFCNode(2, 2)]
+		   , [(1, 2)])
        ]
 
 # T Service Function Chain (SFC) requests known in advance
@@ -29,10 +35,24 @@ N_core = [1, 2, 3, 4, 5]
 W = size(N_core)[1]
 
 # VNFs
-V = sum(r.Nodes for r in SFCs)
+V = sum(size(r.Nodes)[1] for r in SFCs)
 println(V)
 
 m = Model(solver=GLPKSolverMIP())
+
+function beta(v::Int64, k::Int64)
+	vs = 0
+	for r in SFCs
+		if vs + size(r.Nodes)[1] >= v
+			if r.Nodes[v - vs].Func == k
+				return true
+			else
+				return false
+			end
+		end
+		vs += size(r.Nodes)[1]
+	end
+end
 
 # x_h: binary variable assuming the value 1 if the hth SFC
 # request is accepted; otherwise its value is zero
@@ -54,6 +74,11 @@ m = Model(solver=GLPKSolverMIP())
 # expresses the condition that a VNF can
 # be served by one only VNF instance
 @constraint(m, [v=1:V], sum(sum(z[v,w,k] for w=1:W) for k=1:F) <= 1)
+
+# To guarantee that a node v needing the application
+# of a VNF type is mapped to a correct VNF instance
+# we introduce this constraint
+@constraint(m, [v=1:V,k=1:F,w=1:W], z[v,w,k] <= beta(v,k))
 
 @objective(m, Max, sum(x[h] for h=1:T))
 
