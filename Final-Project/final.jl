@@ -2,18 +2,35 @@ using JuMP
 using GLPK
 using GLPKMathProgInterface
 
+
+struct SFCRequest
+	Nodes::Int64
+	Links::Array{Tuple{Int64,Int64}}
+end
+
 # Parameters
 ## SFC Requests
 
+SFCs = [
+	SFCRequest(2, [(1, 2)])
+       ]
+
 # T Service Function Chain (SFC) requests known in advance
-T = 10
+T = size(SFCs)[1]
 
 # We assume that F types of VNFs can be provisioned as
 # firewall, IDS, proxy, load balancers, and so on.
 F = 5
 
+# Physical Network cores
+N_core = [1, 2, 3, 4, 5]
+
 # W Number of physical nodes
-W = 5
+W = size(N_core)[1]
+
+# VNFs
+V = sum(r.Nodes for r in SFCs)
+println(V)
 
 m = Model(solver=GLPKSolverMIP())
 
@@ -30,11 +47,13 @@ m = Model(solver=GLPKSolverMIP())
 # node v is served by the VNF instance of type k in the server w
 @variable(m, z[1:V,1:W,1:F] >= 0, Bin)
 
-@constraint(m, [e in E], sum(x[c,e[1],e[2]] for c=1:C) == 1)
-@constraint(m, [e in E, c=1:C], x[c,e[1],e[2]] <= y[c,e[1]])
-@constraint(m, [e in E, c=1:C], x[c,e[1],e[2]] <= y[c,e[2]])
-@constraint(m, [v=1:V], sum(y[c,v] for c=1:C) <= R[v])
-@constraint(m, [e in E, c=1:C, i in I[e]], x[c,e[1],e[2]] + x[c,i[1],i[2]] - 1 <= z[e[1],e[2],i[1],i[2]])
+# establishes the fact that at most a number
+# of Vcores equal to the available ones are used for each server node w
+@constraint(m, [w=1:W], sum(y[k,w] for k=1:F) <= N_core[w])
+
+# expresses the condition that a VNF can
+# be served by one only VNF instance
+@constraint(m, [v=1:V], sum(sum(z[v,w,k] for w=1:W) for k=1:F) <= 1)
 
 @objective(m, Max, sum(x[h] for h=1:T))
 
