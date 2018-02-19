@@ -61,7 +61,7 @@ Paths = [Path([
 P = size(Paths)[1]
 
 # Links
-E = [Link(1, 2, 10)]
+E = [Link(1, 2, 1)]
 
 # Virtual links
 D = sum(size(r.Links)[1] for r in SFCs)
