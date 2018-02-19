@@ -208,8 +208,8 @@ end
 # p.source and p.destination must be the physical network nodes that the nodes d.source
 # d.destination of the virtual graph are assigned to.
 
-@constraint(m, [k=1:F,d=1:D,p=1:P], u[d, p] <= z[vlink_source(d), Paths[p].Source, k])
-@constraint(m, [k=1:F,d=1:D,p=1:P], u[d, p] <= z[vlink_destination(d), Paths[p].Destination, k])
+@constraint(m, [d=1:D,p=1:P], u[d, p] <= sum(z[vlink_source(d), Paths[p].Source, k] for k=1:F))
+@constraint(m, [d=1:D,p=1:P], u[d, p] <= sum(z[vlink_destination(d), Paths[p].Destination, k] for k=1:F))
 
 # the choice of mapping of any virtual link on
 # a single physical network path is represented by
