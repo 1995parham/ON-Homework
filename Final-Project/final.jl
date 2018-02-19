@@ -15,17 +15,23 @@ end
 
 struct SFCRequest
 	Nodes::Array{Node}
+	Links::Array{Link}
+end
+
+struct Path
 	Links::Array{Tuple{Int64,Int64}}
+	Source::Int64
+	Destination::Int64
 end
 
 # Parameters
 ## SFC Requests
 
 SFCs = [
-	SFCRequest([Node(1, 1), Node(2, 2)],
-		   [(1, 2)]),
-	SFCRequest([Node(1, 3)],
-		   [])
+	SFCRequest([Node(1, 1), Node(1, 2)],
+		   [Link(1, 2, 1)]),
+	SFCRequest([Node(1, 3), Node(1, 5)],
+		   [Link(1, 2, 1)])
        ]
 
 # T Service Function Chain (SFC) requests known in advance
@@ -45,6 +51,22 @@ W = size(PN_nodes)[1]
 # VNFs
 V = sum(size(r.Nodes)[1] for r in SFCs)
 
+# Paths
+Paths = [Path([
+	       (1, 2),
+	      ], 1, 2),
+	 Path([], 1, 1),
+	 Path([], 2, 2)
+	 ]
+P = size(Paths)[1]
+
+# Links
+E = [Link(1, 2, 10)]
+
+# Virtual links
+D = sum(size(r.Links)[1] for r in SFCs)
+
+# Mathmatical model
 m = Model(solver=GLPKSolverMIP())
 
 # assuming the value 1 if the VNF v needs the
@@ -75,6 +97,18 @@ function B(v::Int64)
 	end
 end
 
+# the binary function assuming value 1 or 0 if the
+# network link 𝑑 belongs or does not to the path 𝑝
+# respectively
+function delta(d::Link, p::Path)
+	for l in p.Links
+		if l[1] == d.Source && l[2] == d.Destination
+			return true
+		end
+	end
+	return false
+end
+
 function node_range(h::Int64)
 	start = 0
 	if h > 1
@@ -84,6 +118,51 @@ function node_range(h::Int64)
 
 	return start + 1 : finish
 end
+
+function link_range(h::Int64)
+	start = 0
+	if h > 1
+		start = sum(size(SFCs[i].Links)[1] for i=1:h-1)
+	end
+	finish = start + size(SFCs[h].Links)[1]
+
+	return start + 1 : finish
+end
+
+function vlink_source(d::Int64)
+	ds = 0
+	vs = 0
+	for r in SFCs
+		if ds + size(r.Links)[1] >= d
+			return r.Links[d - ds].Source + vs
+		end
+		ds += size(r.Links)[1]
+		vs += size(r.Nodes)[1]
+	end
+end
+
+function vlink_destination(d::Int64)
+	ds = 0
+	vs = 0
+	for r in SFCs
+		if ds + size(r.Links)[1] >= d
+			return r.Links[d - ds].Destination + vs
+		end
+		ds += size(r.Links)[1]
+		vs += size(r.Nodes)[1]
+	end
+end
+
+function index_to_link(d::Int64)
+	ds = 0
+	for r in SFCs
+		if ds + size(r.Links)[1] >= d
+			return r.Links[d - ds]
+		end
+		ds += size(r.Links)[1]
+	end
+end
+
 
 # x_h: binary variable assuming the value 1 if the hth SFC
 # request is accepted; otherwise its value is zero
@@ -97,6 +176,11 @@ end
 # z_vw^k: binary variable assuming the value 1 if the VNF
 # node v is served by the VNF instance of type k in the server w
 @variable(m, z[1:V,1:W,1:F] >= 0, Bin)
+
+# u_dp: binary variable assuming the value 1 if the virtual
+# link e is embedded in the physical
+# network path p; otherwise its value is zero.
+@variable(m, u[1:D,1:P] >= 0, Bin)
 
 # establishes the fact that at most a number
 # of Vcores equal to the available ones are used for each server node w
@@ -120,17 +204,39 @@ end
 # of the SFC graph are assigned to VNF instances
 @constraint(m, [h=1:T, v=node_range(h)], x[h] <= sum(sum(z[v,w,k] for w=1:W) for k=1:F))
 
+# establish the fact that when the virtual link d is supported by the physical network path p then
+# p.source and p.destination must be the physical network nodes that the nodes d.source
+# d.destination of the virtual graph are assigned to.
+
+@constraint(m, [k=1:F,d=1:D,p=1:P], u[d, p] <= z[vlink_source(d), Paths[p].Source, k])
+@constraint(m, [k=1:F,d=1:D,p=1:P], u[d, p] <= z[vlink_destination(d), Paths[p].Destination, k])
+
+# the choice of mapping of any virtual link on
+# a single physical network path is represented by
+# following constraint
+@constraint(m, [d=1:D], sum(u[d,p] for p=1:P) <= 1)
+
+# avoids any overloading on any physical network link
+@constraint(m, [e in E], sum(index_to_link(d).Wight * sum(delta(e, Paths[p]) * u[d, p] for p=1:P) for d=1:D) <= e.Wight)
+
+# establish the fact that an SFC request can be accepted when the links
+# of the SFC graph are assigned to physical network paths
+@constraint(m, [h=1:T, d=link_range(h)], x[h] <= sum(u[d,p] for p=1:P))
+
 @objective(m, Max, sum(x[h] for h=1:T))
 
-print(m)
+println(m)
 
 status = @time solve(m)
+
+println()
 
 println("Objective value: ", getobjectivevalue(m))
 
 X = getvalue(x)
 Y = getvalue(y)
 Z = getvalue(z)
+U = getvalue(u)
 
 println()
 
@@ -144,4 +250,11 @@ for w = 1:W, k = 1:F
 	println("Type ", k, " has ", Y[k,w], " cores on ", w)
 end
 
-println("z = ", Z)
+println()
+
+for w = 1:W, k = 1:F, v = 1:V
+	if Z[v,w,k] == 1
+		println("Node ", v, " placed on ", w, " with type ", k)
+	end
+end
+println("u = ", U)
