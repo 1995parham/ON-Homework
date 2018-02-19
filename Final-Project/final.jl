@@ -257,4 +257,11 @@ for w = 1:W, k = 1:F, v = 1:V
 		println("Node ", v, " placed on ", w, " with type ", k)
 	end
 end
-println("u = ", U)
+
+println()
+
+for d = 1:D, p =1:P
+	if U[d, p] == 1
+		println("Virtual Link ", d, " placed on path ", p)
+	end
+end
